@@ -23,6 +23,14 @@ import java.util.HashMap;
 public class Department {
 
     String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     CourseCatalog coursecatalog;
     PersonDirectory persondirectory;
     StudentDirectory studentdirectory;
@@ -33,6 +41,14 @@ public class Department {
 
     public Department(String n) {
         name = n;
+        mastercoursecatalog = new HashMap<String, CourseSchedule>();
+        coursecatalog = new CourseCatalog(this);
+        studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
+        persondirectory = new PersonDirectory();
+    }
+    
+    public Department() {
+        //name = n;
         mastercoursecatalog = new HashMap<String, CourseSchedule>();
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
@@ -94,5 +110,9 @@ public class Department {
 
         co.assignEmptySeat(cl);
 
+    }
+    
+    public String toString(){
+        return name;
     }
 }

@@ -6,7 +6,7 @@
 package info5100.university.brewingUniversityModel.Persona;
 
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseLoad;
-import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.EmploymentHistroy;
+import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.EmploymentHistory;
 
 /**
  *
@@ -16,14 +16,14 @@ public class StudentProfile {
 
     Person person;
     Transcript transcript;
-    EmploymentHistroy employmenthistory;
+    EmploymentHistory employmenthistory; //track the employment of student irrespective of time
     
 
     public StudentProfile(Person p) {
 
         person = p;
         transcript = new Transcript();
-        employmenthistory = new EmploymentHistroy();
+        employmenthistory = new EmploymentHistory();
     }
 
     public boolean isMatch(String id) {
