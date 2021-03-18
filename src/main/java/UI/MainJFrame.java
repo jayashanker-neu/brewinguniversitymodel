@@ -5,8 +5,8 @@
  */
 package UI;
 
-import DepartmentDirectory.DepartmentDirectory;
-import CourseSupplier.LoginSupplierJPanel;
+import info5100.university.brewingUniversityModel.Department.DepartmentDirectory;
+import UI.CourseSupplier.LoginSupplierJPanel;
 import UI.DepartmentAdmin.AdminWorkAreaJPanel;
 import java.awt.CardLayout;
 

@@ -1,4 +1,4 @@
-package CourseSupplier;
+package UI.CourseSupplier;
 
 import info5100.university.brewingUniversityModel.Department.Department;
 import java.awt.CardLayout;

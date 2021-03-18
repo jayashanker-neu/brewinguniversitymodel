@@ -1,6 +1,6 @@
 package UI.DepartmentAdmin;
 
-import DepartmentDirectory.DepartmentDirectory;
+import info5100.university.brewingUniversityModel.Department.DepartmentDirectory;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 

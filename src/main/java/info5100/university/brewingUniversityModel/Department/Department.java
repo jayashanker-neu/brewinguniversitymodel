@@ -32,7 +32,7 @@ public class Department {
     //EmployerDirectory employerdirectory;
 
     HashMap<String, CourseSchedule> mastercoursecatalog;
-
+    
     public Department(String n) {
         name = n;
         mastercoursecatalog = new HashMap<String, CourseSchedule>();
@@ -40,6 +40,20 @@ public class Department {
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
         placementHistory = new PlacementHistory(this);
+    }
+    
+    
+    public String getName() {
+
+        return name;
+
+    }
+
+
+    public void setName(String name) {
+
+        this.name = name;
+
     }
 
     public PlacementHistory getPlacementHistory() {
@@ -104,4 +118,13 @@ public class Department {
         co.assignEmptySeat(cl);
 
     }
+    
+    
+    @Override
+    public String toString(){
+
+        return name;
+
+    }
+    
 }
