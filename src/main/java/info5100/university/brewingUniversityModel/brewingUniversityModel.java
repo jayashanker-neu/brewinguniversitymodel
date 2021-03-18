@@ -26,6 +26,17 @@ public class brewingUniversityModel {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        //what all the things are in depart and college lvl?
+        // I am able to create multiple departments , this makes one college
+        // should be able to create multiple colleges and display, this makes university model
+        //let go into sub details
+        
+        //in department, degree should be defined
+        //degree is connected with completing all credits and covering all courses(core and elective)
+        
+        //create UI
+        
         Department department = new Department("Information Systems");
 
         Course course = department.newCourse("app eng", "info 5100", 4);

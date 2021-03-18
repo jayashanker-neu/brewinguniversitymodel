@@ -11,9 +11,9 @@ import java.util.ArrayList;
  *
  * @author kal bugrara
  */
-public class EmploymentHistroy {
+public class EmploymentHistory {
     ArrayList<Employment> employments;
-    public EmploymentHistroy(){
+    public EmploymentHistory(){
         employments = new ArrayList();
     }
     

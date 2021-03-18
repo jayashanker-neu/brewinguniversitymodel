@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class EmployerProfile {
     String name;
-    ArrayList<Employment> employments;
+    ArrayList<Employment> employments; //job roles
     public EmployerProfile(String n){  //could be company instead of just a name as a string
         name = n;
         
