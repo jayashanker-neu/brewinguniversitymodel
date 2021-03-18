@@ -1,6 +1,6 @@
 package UI.DepartmentAdmin;
 
-import DepartmentDirectory.DepartmentDirectory;
+import info5100.university.brewingUniversityModel.Department.DepartmentDirectory;
 import info5100.university.brewingUniversityModel.Department.Department;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -123,9 +123,9 @@ public class AddSupplierJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
-        Department department = departmentDirectory.addDepartment();
-        department.setName(txtName.getText());
+        
+        String departmentName = txtName.getText();
+        Department department = departmentDirectory.addDepartment(departmentName);
         JOptionPane.showMessageDialog(null, "Department added successfully!!", "Info", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnAddActionPerformed
 

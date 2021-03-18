@@ -14,6 +14,7 @@ import info5100.university.brewingUniversityModel.Persona.Faculty.FacultyDirecto
 import info5100.university.brewingUniversityModel.Persona.PersonDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentProfile;
+import info5100.university.brewingUniversityModel.Placement.PlacementHistory;
 import java.util.HashMap;
 
 /**
@@ -23,38 +24,44 @@ import java.util.HashMap;
 public class Department {
 
     String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     CourseCatalog coursecatalog;
     PersonDirectory persondirectory;
     StudentDirectory studentdirectory;
     FacultyDirectory facultydirectory;
+    PlacementHistory placementHistory;
     //EmployerDirectory employerdirectory;
 
     HashMap<String, CourseSchedule> mastercoursecatalog;
-
+    
     public Department(String n) {
         name = n;
         mastercoursecatalog = new HashMap<String, CourseSchedule>();
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
+        placementHistory = new PlacementHistory(this);
     }
     
-    public Department() {
-        //name = n;
-        mastercoursecatalog = new HashMap<String, CourseSchedule>();
-        coursecatalog = new CourseCatalog(this);
-        studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
-        persondirectory = new PersonDirectory();
+    
+    public String getName() {
+
+        return name;
+
     }
 
+
+    public void setName(String name) {
+
+        this.name = name;
+
+    }
+
+    public PlacementHistory getPlacementHistory() {
+
+        return placementHistory;
+
+    }
+    
     public PersonDirectory getPersonDirectory() {
 
         return persondirectory;
@@ -112,7 +119,12 @@ public class Department {
 
     }
     
+    
+    @Override
     public String toString(){
+
         return name;
+
     }
+    
 }

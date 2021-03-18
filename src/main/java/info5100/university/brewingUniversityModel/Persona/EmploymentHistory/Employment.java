@@ -21,8 +21,6 @@ public class Employment {
     String job; //job role
     Employment nextemplyment;  //next job so they are in a sequence 
     
-    static ArrayList<StudentProfile> employedStudent; //to maintain student list who got job
-    
     EmployerProfile employer;
     public Employment(String j){
         this.job = j;

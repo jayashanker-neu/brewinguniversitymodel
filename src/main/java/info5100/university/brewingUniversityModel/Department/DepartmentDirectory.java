@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DepartmentDirectory;
+package info5100.university.brewingUniversityModel.Department;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ public class DepartmentDirectory {
         return newDepartment;
     }
 
-    public Department addDepartment() {
-        Department newDepartment = new Department();
-        departmentList.add(newDepartment);
-        return newDepartment;
-    }
+//    public Department addDepartment() {
+//        Department newDepartment = new Department();
+//        departmentList.add(newDepartment);
+//        return newDepartment;
+//    }
     public void removeDepartment(Department d) {
         departmentList.remove(d);
     }

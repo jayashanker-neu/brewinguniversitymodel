@@ -1,6 +1,6 @@
-package CourseSupplier;
+package UI.CourseSupplier;
 
-import DepartmentDirectory.DepartmentDirectory;
+import info5100.university.brewingUniversityModel.Department.DepartmentDirectory;
 import info5100.university.brewingUniversityModel.Department.Department;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
