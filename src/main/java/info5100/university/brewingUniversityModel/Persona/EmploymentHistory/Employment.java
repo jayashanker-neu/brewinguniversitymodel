@@ -21,15 +21,31 @@ public class Employment {
     String job; //job role
     Employment nextemplyment;  //next job so they are in a sequence 
     
-    ArrayList<StudentProfile> employedStudent;
-    
-    //maintain student list who got job
+    static ArrayList<StudentProfile> employedStudent; //to maintain student list who got job
     
     EmployerProfile employer;
     public Employment(String j){
-        
+        this.job = j;
         ArrayList relevantcourseoffers = new ArrayList();
         
     }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public EmployerProfile getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(EmployerProfile employer) {
+        this.employer = employer;
+    }
+    
+    
 
 }
