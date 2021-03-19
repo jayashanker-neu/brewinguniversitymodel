@@ -12,5 +12,11 @@ import com.github.javafaker.Faker;
  * @author jayas
  */
 public class MyFaker {
-    Faker faker = new Faker();
+    Faker faker;
+    
+    public static void main(String args[]){
+        Faker faker = new Faker();
+        System.out.println(faker.university().name());
+    }
+    
 }

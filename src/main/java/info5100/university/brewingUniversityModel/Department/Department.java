@@ -14,7 +14,9 @@ import info5100.university.brewingUniversityModel.Persona.Faculty.FacultyDirecto
 import info5100.university.brewingUniversityModel.Persona.PersonDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentProfile;
+import info5100.university.brewingUniversityModel.Placement.Placement;
 import info5100.university.brewingUniversityModel.Placement.PlacementHistory;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -35,11 +37,10 @@ public class Department {
     
     public Department(String n) {
         name = n;
-        mastercoursecatalog = new HashMap<String, CourseSchedule>();
+        mastercoursecatalog = new HashMap<String, CourseSchedule>(); //semester and courseSchedule
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
-        placementHistory = new PlacementHistory(this);
     }
     
     
@@ -55,12 +56,25 @@ public class Department {
         this.name = name;
 
     }
-
+    
     public PlacementHistory getPlacementHistory() {
+        if(this.placementHistory == null) {
+            this.placementHistory = new PlacementHistory(this);
+        }
+        
+        return this.placementHistory;
+    }
 
-        return placementHistory;
+    public ArrayList<Placement> getPlacementList(String semester) {
+
+        if(this.placementHistory == null) {
+            this.placementHistory = new PlacementHistory(this, semester);
+        }
+        return this.placementHistory.getPlacementList(semester);
 
     }
+    
+    
     
     public PersonDirectory getPersonDirectory() {
 
@@ -118,6 +132,8 @@ public class Department {
         co.assignEmptySeat(cl);
 
     }
+    
+    
     
     
     @Override
