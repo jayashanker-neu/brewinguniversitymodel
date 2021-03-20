@@ -12,11 +12,11 @@ import javax.swing.JPanel;
  *
  * @author Mihir Mehta / Hechen Gao
  */
-public class CreateNewProductJPanel extends javax.swing.JPanel {
+public class CreateNewCourseJPanel extends javax.swing.JPanel {
 
     JPanel userProcessContainer;
     Department supplier;
-    public CreateNewProductJPanel(JPanel upc, Department s){
+    public CreateNewCourseJPanel(JPanel upc, Department s){
         initComponents();
         userProcessContainer = upc;
         supplier = s;
@@ -152,7 +152,7 @@ try{
 //            int price = Integer.parseInt(stringPrice);
 //            p.setPrice(price);
 //        }
-        JOptionPane.showMessageDialog(null, "Product added!", "Info", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Course added!", "Info", JOptionPane.INFORMATION_MESSAGE);
 }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -160,7 +160,7 @@ try{
         userProcessContainer.remove(this);
         Component[] componentArray = userProcessContainer.getComponents();
         Component component = componentArray[componentArray.length - 1];
-        ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
+        ManageCourseCatalogJPanel manageProductCatalogJPanel = (ManageCourseCatalogJPanel) component;
         manageProductCatalogJPanel.refreshTable();
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.previous(userProcessContainer);

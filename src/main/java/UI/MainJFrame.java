@@ -6,7 +6,8 @@
 package UI;
 
 import info5100.university.brewingUniversityModel.Department.DepartmentDirectory;
-import UI.CourseSupplier.LoginSupplierJPanel;
+import UI.CourseSupplier.LoginDepartmentJPanel;
+import UI.Dashboard.DashBoardJPanel;
 import UI.DepartmentAdmin.AdminWorkAreaJPanel;
 import java.awt.CardLayout;
 
@@ -40,10 +41,11 @@ public class MainJFrame extends javax.swing.JFrame {
         controlPanel = new javax.swing.JPanel();
         btnAdmin = new javax.swing.JButton();
         btnSupplier = new javax.swing.JButton();
+        btnDashboard = new javax.swing.JButton();
         userProcessContainer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Lab 5 Skeleton");
+        setTitle("University Model");
 
         splitPane.setDividerLocation(150);
         splitPane.setOpaque(false);
@@ -62,6 +64,13 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        btnDashboard.setText("Dashboard");
+        btnDashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboardActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
         controlPanelLayout.setHorizontalGroup(
@@ -69,8 +78,10 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(controlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -83,7 +94,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(btnAdmin)
                 .addGap(18, 18, 18)
                 .addComponent(btnSupplier)
-                .addContainerGap(415, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnDashboard)
+                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         splitPane.setLeftComponent(controlPanel);
@@ -116,11 +129,18 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
 
-        LoginSupplierJPanel ls = new LoginSupplierJPanel(userProcessContainer, departmentDirectory);
+        LoginDepartmentJPanel ls = new LoginDepartmentJPanel(userProcessContainer, departmentDirectory);
         userProcessContainer.add("LoginSupplierJPanel", ls);
         CardLayout layout = (CardLayout)userProcessContainer.getLayout();
         layout.next(userProcessContainer);
     }//GEN-LAST:event_btnSupplierActionPerformed
+
+    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
+        DashBoardJPanel dbjp = new DashBoardJPanel(userProcessContainer, departmentDirectory);
+        userProcessContainer.add("DashBoardJPanel", dbjp);
+        CardLayout layout = (CardLayout)userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
+    }//GEN-LAST:event_btnDashboardActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,6 +180,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JSplitPane splitPane;

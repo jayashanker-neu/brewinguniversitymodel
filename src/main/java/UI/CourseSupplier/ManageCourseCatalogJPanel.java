@@ -11,15 +11,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Rushabh
  */
-public class ManageProductCatalogJPanel extends javax.swing.JPanel {
+public class ManageCourseCatalogJPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form ManageProductCatalogJPanel
+     * Creates new form ManageCourseCatalogJPanel
      */
     private JPanel userProcessContainer;
     private Department supplier;
 
-    public ManageProductCatalogJPanel(JPanel upc, Department s) {
+    public ManageCourseCatalogJPanel(JPanel upc, Department s) {
         initComponents();
         userProcessContainer = upc;
         supplier = s;
@@ -162,7 +162,7 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
         
         Course p = (Course) tblProductCatalog.getValueAt(selectedRowIndex, 0);
         
-        ViewProductDetailJPanel vpdjp = new ViewProductDetailJPanel(userProcessContainer, p);
+        ViewCourseDetailJPanel vpdjp = new ViewCourseDetailJPanel(userProcessContainer, p);
         userProcessContainer.add("ViewProductDetailJPanel", vpdjp);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
@@ -170,7 +170,7 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
 
-        CreateNewProductJPanel cnpjp = new CreateNewProductJPanel(userProcessContainer, supplier);
+        CreateNewCourseJPanel cnpjp = new CreateNewCourseJPanel(userProcessContainer, supplier);
         userProcessContainer.add("CreateNewProductJPanel", cnpjp);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
@@ -178,7 +178,7 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
-        SearchForProductJPanel sfpjp = new SearchForProductJPanel(userProcessContainer, supplier);
+        SearchForCourseJPanel sfpjp = new SearchForCourseJPanel(userProcessContainer, supplier);
         userProcessContainer.add("SearchForProductJPanel", sfpjp);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
