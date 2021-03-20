@@ -24,6 +24,7 @@ public class CourseLoad {
         Seat seat = co.getEmptySeat(); // seat linked to courseoffer
         if (seat==null) return null;
         SeatAssignment sa = seat.newSeatAssignment();
+        sa.seat = seat;
         seatassignments.add(sa);  //add to students course 
         return sa;
     }
@@ -33,6 +34,10 @@ public class CourseLoad {
         
         sa.assignSeatToStudent(this);
         seatassignments.add(sa);
+    }
+    
+    public ArrayList<SeatAssignment> getSeatAssignments() {
+        return this.seatassignments;
     }
     
 }

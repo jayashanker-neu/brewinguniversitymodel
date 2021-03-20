@@ -15,10 +15,12 @@ import info5100.university.brewingUniversityModel.Persona.StudentProfile;
 public class Placement {
     StudentProfile student;
     Employment employment;
+    String semester;
 
-    public Placement(StudentProfile student, Employment emp) {
+    public Placement(StudentProfile student, Employment emp, String semester) {
         this.student = student;
         this.employment = emp;
+        this.semester = semester;
     }
     
 }

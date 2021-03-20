@@ -6,8 +6,9 @@
 package info5100.university.brewingUniversityModel.Persona;
 
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseLoad;
-import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.Employment;
+import info5100.university.brewingUniversityModel.CourseSchedule.SeatAssignment;
 import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.EmploymentHistory;
+import java.util.Map;
 
 /**
  *
@@ -27,6 +28,10 @@ public class StudentProfile {
         employmenthistory = new EmploymentHistory();
     }
 
+    public String getName() {
+        return person.getName();
+    }
+    
     public boolean isMatch(String id) {
         if (person.getPersonId().equals(id)) {
             return true;
@@ -68,4 +73,15 @@ public class StudentProfile {
     public void addEmployment(String job){
         this.employmenthistory.newEmployment(job);
     }
+    
+    public float getGPAbyCourseName(String course) {
+        for(Map.Entry<String, CourseLoad> cl: transcript.courseloadlist.entrySet()) {
+            for(SeatAssignment sa: cl.getValue().getSeatAssignments()) {
+                if(sa.getCourseName().equals(course))
+                    return sa.getGPA();
+            }
+        }
+        return 4;
+    }
+    
 }
