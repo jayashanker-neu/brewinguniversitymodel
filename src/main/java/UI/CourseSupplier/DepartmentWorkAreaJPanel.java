@@ -8,11 +8,11 @@ import javax.swing.JPanel;
  *
  * @author Mihir Mehta / Hechen Gao
  */
-public class SupplierWorkAreaJPanel extends javax.swing.JPanel {
+public class DepartmentWorkAreaJPanel extends javax.swing.JPanel {
 
     private JPanel userProcessContainer;
     private Department supplier;
-    public SupplierWorkAreaJPanel(JPanel upc, Department s) {
+    public DepartmentWorkAreaJPanel(JPanel upc, Department s) {
         initComponents();
         userProcessContainer = upc;
         supplier = s;
@@ -23,42 +23,20 @@ public class SupplierWorkAreaJPanel extends javax.swing.JPanel {
 
         lblTitle = new javax.swing.JLabel();
         btnManageProductCatalog = new javax.swing.JButton();
-        btnProductPerformance = new javax.swing.JButton();
-        btnUpdateProfile = new javax.swing.JButton();
-        btnUpdateStaff = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(650, 600));
 
         lblTitle.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        lblTitle.setText("Supplier Work Area");
+        lblTitle.setText("Department Work Area");
         lblTitle.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         lblTitle.setIconTextGap(100);
 
-        btnManageProductCatalog.setText("Manage Product Catalog >>");
+        btnManageProductCatalog.setText("Manage Course Catalog >>");
         btnManageProductCatalog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnManageProductCatalogActionPerformed(evt);
             }
         });
-
-        btnProductPerformance.setText("Review Product Performance >>");
-        btnProductPerformance.setEnabled(false);
-        btnProductPerformance.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProductPerformanceActionPerformed(evt);
-            }
-        });
-
-        btnUpdateProfile.setText("Update Personal Profile >>");
-        btnUpdateProfile.setEnabled(false);
-        btnUpdateProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateProfileActionPerformed(evt);
-            }
-        });
-
-        btnUpdateStaff.setText("Manage Staff");
-        btnUpdateStaff.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -67,11 +45,9 @@ public class SupplierWorkAreaJPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(400, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnProductPerformance)
-                        .addComponent(btnUpdateProfile)
-                        .addComponent(btnUpdateStaff)
-                        .addComponent(btnManageProductCatalog))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnManageProductCatalog)
+                        .addGap(28, 28, 28))
                     .addComponent(lblTitle))
                 .addGap(55, 55, 55))
         );
@@ -82,36 +58,19 @@ public class SupplierWorkAreaJPanel extends javax.swing.JPanel {
                 .addComponent(lblTitle)
                 .addGap(98, 98, 98)
                 .addComponent(btnManageProductCatalog)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnProductPerformance)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUpdateProfile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUpdateStaff)
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addContainerGap(420, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     private void btnManageProductCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageProductCatalogActionPerformed
 
-        ManageProductCatalogJPanel mpcjp = new ManageProductCatalogJPanel(userProcessContainer, supplier);
+        ManageCourseCatalogJPanel mpcjp = new ManageCourseCatalogJPanel(userProcessContainer, supplier);
         userProcessContainer.add("ManageProductCatalogJPanel", mpcjp);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
     }//GEN-LAST:event_btnManageProductCatalogActionPerformed
 
-    private void btnProductPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductPerformanceActionPerformed
-
-    }//GEN-LAST:event_btnProductPerformanceActionPerformed
-
-    private void btnUpdateProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateProfileActionPerformed
-
-    }//GEN-LAST:event_btnUpdateProfileActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnManageProductCatalog;
-    private javax.swing.JButton btnProductPerformance;
-    private javax.swing.JButton btnUpdateProfile;
-    private javax.swing.JButton btnUpdateStaff;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,11 +11,11 @@ import javax.swing.JPanel;
  *
  * @author Mihir Mehta / Hechen Gao
  */
-public class SearchForProductJPanel extends javax.swing.JPanel {
+public class SearchForCourseJPanel extends javax.swing.JPanel {
 
     JPanel userProcessContainer;
     Department supplier;
-    public SearchForProductJPanel(JPanel upc, Department s) {
+    public SearchForCourseJPanel(JPanel upc, Department s) {
         initComponents();
         userProcessContainer = upc;
         supplier =s;
@@ -33,7 +33,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(650, 600));
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblTitle.setText("Search for Product");
+        lblTitle.setText("Search for Course");
 
         btnBack.setText("<< Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -42,7 +42,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
             }
         });
 
-        lblProductId.setText("Product Id:");
+        lblProductId.setText("Course Id:");
 
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +118,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
         userProcessContainer.remove(this);
         Component[] componentArray = userProcessContainer.getComponents();
         Component component = componentArray[componentArray.length - 1];
-        ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
+        ManageCourseCatalogJPanel manageProductCatalogJPanel = (ManageCourseCatalogJPanel) component;
         manageProductCatalogJPanel.refreshTable();
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.previous(userProcessContainer);

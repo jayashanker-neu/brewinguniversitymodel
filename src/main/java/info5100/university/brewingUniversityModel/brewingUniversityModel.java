@@ -232,6 +232,14 @@ public class brewingUniversityModel {
                 System.out.println(" 3. Show Student Performance provided by Employers");
                 System.out.println(" 4. Show quality of Employers students are working for");
                 System.out.println(" 5. Add Course");
+                System.out.println(" 6. See Students"); //TODO: Implement
+                System.out.println(" 7. Add Student");  //TODO: Implement
+                System.out.println(" 8. Show Faculty"); //TODO: Implement
+                System.out.println(" 9. Create Faculty");   //TODO: Implement
+                System.out.println("10. Create course offer"); //TODO: Implement
+                System.out.println("11. Assign courseoffer to student"); //TODO:  alongwith with seat assignment
+                System.out.println("12. Assign GPA");
+                
                 System.out.println("99. Go Back");
                 
                 switch(new Scanner(System.in).nextInt()) {

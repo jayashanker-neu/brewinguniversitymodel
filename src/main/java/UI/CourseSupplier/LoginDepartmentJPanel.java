@@ -9,11 +9,11 @@ import javax.swing.JPanel;
  *
  * @author Mihir Mehta / Hechen Gao
  */
-public class LoginSupplierJPanel extends javax.swing.JPanel {
+public class LoginDepartmentJPanel extends javax.swing.JPanel {
     
     private JPanel userProcessContainer;
     private DepartmentDirectory departmentDirectory;
-    public LoginSupplierJPanel(JPanel upc, DepartmentDirectory sd) {
+    public LoginDepartmentJPanel(JPanel upc, DepartmentDirectory sd) {
         initComponents();
         this.userProcessContainer = upc;
         this.departmentDirectory = sd;
@@ -91,8 +91,8 @@ public class LoginSupplierJPanel extends javax.swing.JPanel {
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
 
         Department department = (Department) cmbSupplier.getSelectedItem();
-        SupplierWorkAreaJPanel swajp = new SupplierWorkAreaJPanel(userProcessContainer, department);
-        userProcessContainer.add("SupplierWorkAreaJPanel", swajp);
+        DepartmentWorkAreaJPanel swajp = new DepartmentWorkAreaJPanel(userProcessContainer, department);
+        userProcessContainer.add("DepartmentWorkAreaJPanel", swajp);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
     }//GEN-LAST:event_btnFindActionPerformed
