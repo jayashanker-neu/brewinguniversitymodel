@@ -66,7 +66,7 @@ public class brewingUniversityModel {
         courseload.newSeatAssignment(courseoffer); //register student in class
         
         int total = department.calculateRevenuesBySemester("Fall2020");
-        System.out.print("Total: " + total);
+//        System.out.print("Total: " + total);
         
         
         while(showMainMenu());
@@ -84,7 +84,7 @@ public class brewingUniversityModel {
 
     private static Boolean showMainMenu() {
         int choice = 0;
-        Boolean isError = false;
+        Boolean isError = true;
         System.out.println("Choose one option from below:\n");
         Boolean isValidChoice = false;
         
@@ -94,11 +94,12 @@ public class brewingUniversityModel {
             System.out.println(" 3. Show Placements");
             System.out.println(" 4. Show Student Performance provided by Employers");
             System.out.println(" 5. Show quality of Employers students are working for");
+            System.out.println(" 6. Create Department");
             System.out.println("99. Exit");
 
             Scanner scanner;
         
-            while(!isError) {
+            while(isError) {
                 try {
                     scanner = new Scanner(System.in);
                     choice = scanner.nextInt();
@@ -134,6 +135,20 @@ public class brewingUniversityModel {
                 case 5:
                     isValidChoice = true;
                     showEmployerQuality(null);
+                    break;
+                    
+                case 6:
+                    isValidChoice = true;
+                    System.out.println("Enter the new department name: ");
+                    String newDepartmentName = new Scanner(System.in).nextLine();
+                    if(getDepartmentFromDirectory(newDepartmentName) == null) {
+                        departmentDirectory.add(new Department(newDepartmentName));
+                        System.out.println("Department " + newDepartmentName + " successfully created..");
+                    }
+                    else {
+                        System.out.println("Department " + newDepartmentName + " already exists..");
+                        System.out.println("Department creation failed...");
+                    }
                     break;
 
                 case 99:
@@ -195,6 +210,7 @@ public class brewingUniversityModel {
                     isValidChoice = true;
                 }
                 catch(Exception e) {
+                    System.out.println(e);
                     System.out.println("Please choose a valid option.");
                 }
             }
@@ -208,36 +224,57 @@ public class brewingUniversityModel {
         chooseOption(null);
         
         while(!isValidChoice) {
+            isValidChoice = true;
             try {
-//                int choice;
+//              int choice;
                 System.out.println(" 1. Show Courses");
                 System.out.println(" 2. Show Placements");
                 System.out.println(" 3. Show Student Performance provided by Employers");
                 System.out.println(" 4. Show quality of Employers students are working for");
+                System.out.println(" 5. Add Course");
+                System.out.println("99. Go Back");
                 
                 switch(new Scanner(System.in).nextInt()) {
                     case 1:
-                        isValidChoice = true;
+//                        isValidChoice = true;
                         showCoursesMenu(d.getName());
                         break;
                     case 2:
-                        isValidChoice = true;
+//                        isValidChoice = true;
                         showPlacementsMenu(d.getName());
                         break;
                     case 3:
-                        isValidChoice = true;
+//                        isValidChoice = true;
                         showStudentPerformance(d.getName());
                         break;
                     case 4:
-                        isValidChoice = true;
+//                        isValidChoice = true;
                         showEmployerQuality(d.getName());
                         break;
+                    case 5:
+                        System.out.println("Enter course name to add: ");
+                        String newCourseName = new Scanner(System.in).nextLine();
+                        if(d.getCourseCatalog().hasCourse(newCourseName)) {
+                            System.out.println("Course " + newCourseName + " already present in " + d.getName() + " department");
+                            System.out.println("Course creation failed..");
+                        }
+                        else {
+//                            System.out.println("Enter course number: ");
+                            d.getCourseCatalog().newCourse(newCourseName, newCourseName, 4);
+                            System.out.println("Course " + newCourseName + " created successfully in " + d.getName() + " department");
+                        }
+                        break;
+                    case 99:
+                        return;
                     default:
+                        isValidChoice = false;
                         System.out.println("Please choose a valid option.");
                         break;
                 }
             }
             catch(Exception e) {
+                isValidChoice = false;
+                System.out.println(e);
                 System.out.println("Please choose a valid option.");
             }
         }
@@ -246,13 +283,97 @@ public class brewingUniversityModel {
     
     public static void chooseOption(String s) {
         if(s == null)
-            System.out.println("Choose an option from below: ");
+            System.out.println("Choose an option from below OR 99 to go back: ");
         else
-            System.out.println("Choose one " + s + " from below: ");
+            System.out.println("Choose one " + s + " from below OR 99 to go back: ");
     }
 
+    private static void listCourses(String department) {
+        String printFormat = "%4s. %15s\t%15s\n";
+        System.out.printf(printFormat, "S.No","Course","Department");
+        System.out.println("--------------------------------------");
+        if(department == null) {
+            int i = 0;
+            for(Department d: departmentDirectory) {
+
+                for(Course c: d.getCourseCatalog().getCourseList()) {
+                    i++;
+                    System.out.printf(printFormat,i,c.getName(),d.getName());
+                }
+                
+            }
+        }
+        else {
+            Department d = getDepartmentFromDirectory(department);
+            int i = 0;
+            for(Course c: d.getCourseCatalog().getCourseList()) {
+                i++;
+                System.out.printf(printFormat,i,c.getName(),d.getName());
+            }
+        }
+    }
+    
     private static void showCoursesMenu(String department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int choice;
+        chooseOption("course");
+        listCourses(department);
+        Boolean isValidChoice = false;
+        Course selectedCourse = null;
+        Department selectedDepartment = null;
+        while(!isValidChoice) {
+            try {
+                choice = new Scanner(System.in).nextInt();
+                if(choice == 99) {
+                    System.out.println("Going back..\n");
+                    return;
+                }
+                if(department == null) {
+                    while(choice > 0) {
+                        for(Department d: departmentDirectory) {
+                            for(Course c: d.getCourseCatalog().getCourseList()) {
+                                choice--;
+                                if(choice == 0) { 
+                                    selectedCourse = c;
+                                    selectedDepartment = d;
+                                }
+                            }
+                        }
+                    }
+                    if(selectedCourse == null) {
+                        new Exception();
+                    }
+                }
+                else {
+                    Department d = getDepartmentFromDirectory(department);
+                    selectedCourse = d.getCourseCatalog().getCourseList().get(choice - 1);
+                }
+                isValidChoice = true;
+            }
+            catch (Exception e) {
+                chooseOption("course");
+            }
+        }
+        System.out.println("Selected Course: " + selectedCourse.getName());
+        
+//        System.out.println("Below are the course offers: ");
+//        for(CourseOffer co: selectedDepartment.getCourseCatalog().)
+        
+        System.out.println("\n\n  1. See all students\nAny. Go back");
+        if(new Scanner(System.in).nextInt() == 1) {
+            int i = 0;
+            String printFormat = "%-4s. %20s %4s";
+            for(StudentProfile s: selectedDepartment.getStudentDirectory().getStudentlist()) {
+                if(i == 0) {
+                    System.out.printf(printFormat,"S.No","Name","GPA");
+                    System.out.println("-----------------------------------");
+                }
+                i++;
+                System.out.printf(printFormat,i,s.getName(),s.getGPAbyCourseName(selectedCourse.getName()));
+            }
+        }
+        else
+            return;
+        
     }
 
     private static void showPlacementsMenu(String department) {

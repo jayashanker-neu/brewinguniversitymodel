@@ -82,4 +82,7 @@ public class CourseOffer {
         return sum;
     }
 
+    public String getCourseName() {
+        return this.course.getName();
+    }
 }

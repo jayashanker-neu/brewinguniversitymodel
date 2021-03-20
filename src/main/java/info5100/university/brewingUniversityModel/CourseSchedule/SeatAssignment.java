@@ -13,6 +13,8 @@ public class SeatAssignment {
     
     Seat seat;
     CourseLoad courseload;
+    float GPA;
+    
     public SeatAssignment(CourseLoad cl, Seat s){
         seat = s;
         courseload = cl;
@@ -22,6 +24,18 @@ public class SeatAssignment {
     }
     public void assignSeatToStudent(CourseLoad cl){
         courseload = cl;
+    }
+    
+    public String getCourseName() {
+        return this.seat.courseoffer.getCourseName();
+    }
+
+    public float getGPA() {
+        return GPA;
+    }
+    
+    public void setGPA(float GPA) {
+        this.GPA = GPA;
     }
     
 }

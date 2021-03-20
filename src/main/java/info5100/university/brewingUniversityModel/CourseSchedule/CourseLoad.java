@@ -36,4 +36,8 @@ public class CourseLoad {
         seatassignments.add(sa);
     }
     
+    public ArrayList<SeatAssignment> getSeatAssignments() {
+        return this.seatassignments;
+    }
+    
 }

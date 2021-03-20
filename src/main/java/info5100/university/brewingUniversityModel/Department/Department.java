@@ -83,7 +83,7 @@ public class Department {
     }
 
     public StudentDirectory getStudentDirectory() {
-    return studentdirectory;
+        return studentdirectory;
     }
 
     public CourseSchedule newCourseSchedule(String semester) {

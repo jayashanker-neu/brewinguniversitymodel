@@ -12,17 +12,22 @@ package info5100.university.brewingUniversityModel.Persona;
 public class Person {
     
     String id;
+    String name;
     public Person (String id){
-        
         this.id = id;
+        this.name = id;
     }
     public String getPersonId(){
         return id;
     }
 
-        public boolean isMatch(String id){
+    public boolean isMatch(String id){
         if(getPersonId().equals(id)) return true;
         return false;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
 }

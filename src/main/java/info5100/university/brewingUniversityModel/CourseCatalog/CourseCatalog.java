@@ -63,4 +63,12 @@ public class CourseCatalog {
         return null;
     }
 
+    public boolean hasCourse(String newCourseName) {
+        for(Course c: this.courselist) {
+            if(c.getName().equals(newCourseName))
+                return true;
+        }
+        return false;
+    }
+
 }
