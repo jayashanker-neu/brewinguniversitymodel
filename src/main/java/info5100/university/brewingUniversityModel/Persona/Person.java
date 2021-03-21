@@ -10,19 +10,20 @@ package info5100.university.brewingUniversityModel.Persona;
  * @author kal bugrara
  */
 public class Person {
-    
-    String id;
+    static int idSeq = 0;
+    int id;
     String name;
-    public Person (String id){
-        this.id = id;
-        this.name = id;
+    public Person (String name){
+        idSeq++;
+        this.id = idSeq;
+        this.name = name;
     }
-    public String getPersonId(){
+    public int getPersonId(){
         return id;
     }
 
-    public boolean isMatch(String id){
-        if(getPersonId().equals(id)) return true;
+    public boolean isMatch(int id){
+        if(this.id == id) return true;
         return false;
     }
     

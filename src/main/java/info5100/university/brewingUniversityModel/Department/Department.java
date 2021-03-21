@@ -41,6 +41,7 @@ public class Department {
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
+        facultydirectory = new FacultyDirectory(this);
     }
     
     
@@ -55,6 +56,10 @@ public class Department {
 
         this.name = name;
 
+    }
+
+    public FacultyDirectory getFacultydirectory() {
+        return facultydirectory;
     }
     
     public PlacementHistory getPlacementHistory() {
@@ -119,7 +124,7 @@ public class Department {
 
     }
 
-    public void RegisterForAClass(String studentid, String cn, String semester) {
+    public void RegisterForAClass(int studentid, String cn, String semester) {
 
         StudentProfile sp = studentdirectory.findStudent(studentid);
 

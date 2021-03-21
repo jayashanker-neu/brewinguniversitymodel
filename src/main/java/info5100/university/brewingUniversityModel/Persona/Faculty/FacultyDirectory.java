@@ -25,14 +25,24 @@ public class FacultyDirectory {
 
     }
 
-    public FacultyProfile newStudentProfile(Person p) {
+    public FacultyProfile newFacultyProfile(Person p) {
 
         FacultyProfile sp = new FacultyProfile(p);
         teacherlist.add(sp);
         return sp;
     }
 
-    public FacultyProfile findTeachingFaculty(String id) {
+    public FacultyProfile findFacultyByName(String name) {
+        for (FacultyProfile sp : teacherlist) {
+
+            if (sp.isMatch(name)) {
+                return sp;
+            }
+        }
+        return null;
+    }
+    
+    public FacultyProfile findTeachingFaculty(int id) {
 
         for (FacultyProfile sp : teacherlist) {
 
@@ -41,6 +51,10 @@ public class FacultyDirectory {
             }
         }
             return null; //not found after going through the whole list
-         }
+    }
+    
+    public ArrayList<FacultyProfile> getList() {
+        return teacherlist;
+    }
     
 }

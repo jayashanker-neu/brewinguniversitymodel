@@ -54,7 +54,7 @@ public class Course {
 
 
     }
-    public String getCOurseNumber(){
+    public String getCourseNumber(){
         return number;
     }
     

@@ -24,11 +24,13 @@ public class Employment {
     EmployerProfile employer;
     public Employment(String j){
         this.job = j;
+        this.weight = 10;
+        this.quality = "Very Good";
         ArrayList relevantcourseoffers = new ArrayList();
         
     }
 
-    public String getJob() {
+    public String getJobRole() {
         return job;
     }
 
@@ -39,9 +41,33 @@ public class Employment {
     public EmployerProfile getEmployer() {
         return employer;
     }
+    
+    public String getEmployerName() {
+        return employer.getName();
+    }
 
     public void setEmployer(EmployerProfile employer) {
         this.employer = employer;
+    }
+    
+    public String getStudentQualityAtJob(){
+        return quality;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
     }
     
     

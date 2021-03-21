@@ -17,6 +17,10 @@ public class EmploymentHistory {
         employments = new ArrayList();
     }
     
+    public ArrayList<Employment> getEmployments() {
+        return employments;
+    }
+    
     public Employment newEmployment(String job){
         Employment ne = new Employment(job);
         employments.add(ne);

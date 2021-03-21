@@ -33,11 +33,18 @@ public class CourseLoad {
         
         
         sa.assignSeatToStudent(this);
-        seatassignments.add(sa);
+//        seatassignments.add(sa);
     }
     
     public ArrayList<SeatAssignment> getSeatAssignments() {
         return this.seatassignments;
+    }
+    
+    public ArrayList<SeatAssignment> getSeatAssignmentsForSemester(String semester) {
+        if(semester.equals(this.semester))
+            return this.seatassignments;
+        else 
+            return null;
     }
     
 }
