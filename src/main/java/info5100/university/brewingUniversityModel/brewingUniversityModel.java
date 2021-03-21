@@ -10,14 +10,17 @@ import info5100.university.brewingUniversityModel.CourseCatalog.Course;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseLoad;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseOffer;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseSchedule;
+import info5100.university.brewingUniversityModel.CourseSchedule.SeatAssignment;
 import info5100.university.brewingUniversityModel.Department.Department;
 import info5100.university.brewingUniversityModel.Employer.EmployerDirectory;
 import info5100.university.brewingUniversityModel.Employer.EmployerProfile;
 import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.Employment;
+import info5100.university.brewingUniversityModel.Persona.Faculty.FacultyProfile;
 import info5100.university.brewingUniversityModel.Persona.Person;
 import info5100.university.brewingUniversityModel.Persona.PersonDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentProfile;
+import info5100.university.brewingUniversityModel.Persona.Transcript;
 import info5100.university.brewingUniversityModel.Placement.PlacementHistory;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,12 +32,11 @@ import java.util.Scanner;
 public class brewingUniversityModel {
 
     private static ArrayList<Department> departmentDirectory = new ArrayList<Department>();
+    private static Faker faker = new Faker();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        Faker faker = new Faker();
         
         departmentDirectory.add(new Department("Information Systems"));
         
@@ -50,7 +52,7 @@ public class brewingUniversityModel {
         
         PlacementHistory placementHistory = department.getPlacementHistory();
         
-        courseoffer.generatSeats(10);
+        courseoffer.generateSeats(10);
         
         EmployerDirectory employerDirectory = new EmployerDirectory(department);
         
@@ -79,15 +81,14 @@ public class brewingUniversityModel {
 // creating new courses
         ArrayList<String> courseList = new ArrayList<>();
         
-        for(String d: departmentList) {
-            for(int i = 0; i < 4; i++) {
-                String n = faker.funnyName().name();
-                courseList.add(n);
-                getDepartmentFromDirectory(d).getCourseCatalog().newCourse(n,n,4);
-            }
-        }
-        
-        showCoursesMenu(null);
+//        for(String d: departmentList) {
+//            for(int i = 0; i < 4; i++) {
+//                String n = faker.funnyName().name();
+//                courseList.add(n);
+//                getDepartmentFromDirectory(d).getCourseCatalog().newCourse(n,n,4);
+//            }
+//        }
+
         // creating new semesters
         ArrayList<String> semesterList = new ArrayList<String>() {
             {
@@ -128,7 +129,7 @@ public class brewingUniversityModel {
             }
         }
         
-        // creating new courses
+        // creating new courses, courseOffers, generate 20 seats, Assign Random Faculty
         for(Department d:departmentDirectory) {
             for(int i = 0; i < 4; i++) {
                 String n = faker.funnyName().name();
@@ -136,11 +137,64 @@ public class brewingUniversityModel {
 //                    String cNum = getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4).getCourseNumber();
                 getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4);
                 for(String semester: semesterList) {
-                    getDepartmentFromDirectory(d.getName()).getCourseSchedule(semester).newCourseOffer(n).generatSeats(20);
+                    getDepartmentFromDirectory(d.getName()).getCourseSchedule(semester).newCourseOffer(n).generateSeats(20).
+                            AssignAsTeacher(getSomeFaculty(d));
                 }
             }
         }
         
+        // Create courseLoad, assign seats to all students
+        int i = 0;
+        for(Department d: departmentDirectory) {
+            for(StudentProfile sp: d.getStudentDirectory().getStudentlist()) {
+                Transcript t = sp.getTranscript();
+                for(String semester: semesterList) {
+                    CourseLoad cl = t.newCourseLoad(semester);
+                    for(CourseOffer co : d.getCourseSchedule(semester).getCourseOffers()) {
+                        SeatAssignment sa = cl.newSeatAssignment(co);
+                        if(sa != null) {
+                            cl.registerStudent(sa);
+                            sa.setGPA(faker.number().numberBetween(0, 4));
+//                            System.out.println(d.getName() + " " + sp.getName() + " " + co.getCourseName() + " " + semester);
+//                            System.out.println(++i + " seat created");
+                        }
+//                        else {
+//                            System.out.println(d.getName() + " " + sp.getName() + " " + co.getCourseName() + " " + semester);
+//                            System.out.println(++i + " seat not created");
+//                        }
+                    }
+                }
+            }
+        }
+        
+        // see all students gpa
+        int j = 0;
+        for(Department d: departmentDirectory) {
+            String printFormat = "%-4s. %20s %4s\n";
+            for(StudentProfile s: d.getStudentDirectory().getStudentlist()) {
+                Transcript t = s.getTranscript();
+                for(String semester: semesterList) {
+                    CourseLoad cl = t.getCourseLoadBySemester(semester);
+                    for(CourseOffer co : d.getCourseSchedule(semester).getCourseOffers()) {
+                        ArrayList<SeatAssignment> saList = cl.getSeatAssignmentsForSemester(semester);
+                        for(SeatAssignment sa: saList) {
+                            if(j == 0) {
+                                System.out.printf(printFormat,"S.No","Name","GPA");
+                                System.out.println("-----------------------------------");
+                            }
+                            j++;
+                            System.out.printf(printFormat,j,s.getName(),sa.getGPA());
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        showStudentJobPerformance(null);
+        
+        
+        showCoursesMenu(null);
         
         
         
@@ -148,6 +202,13 @@ public class brewingUniversityModel {
 //        while(showMainMenu());
         
 
+    }
+    
+    private static FacultyProfile getSomeFaculty(Department d){
+        FacultyProfile fp = null;
+        int facultyListSize = d.getFacultydirectory().getList().size();
+        fp = d.getFacultydirectory().findTeachingFaculty((int) (faker.number().randomNumber()%facultyListSize));
+        return fp;
     }
     
     public static Department addDepartment(String n) {
@@ -211,7 +272,7 @@ public class brewingUniversityModel {
 
                 case 4:
                     isValidChoice = true;
-                    showStudentPerformance(null);
+                    showStudentJobPerformance(null);
                     break;
                     
                 case 5:
@@ -348,7 +409,7 @@ public class brewingUniversityModel {
                         break;
                     case 3:
 //                        isValidChoice = true;
-                        showStudentPerformance(d.getName());
+                        showStudentJobPerformance(d.getName());
                         break;
                     case 4:
                         System.out.println("Enter course name to add: ");
@@ -466,13 +527,14 @@ public class brewingUniversityModel {
         System.out.println("\n\n  1. See all students\nAny. Go back");
         if(new Scanner(System.in).nextLine() == "1") {
             int i = 0;
-            String printFormat = "%-4s. %20s %4s";
+            String printFormat = "%-4s. %20s %4s\n";
             for(StudentProfile s: selectedDepartment.getStudentDirectory().getStudentlist()) {
                 if(i == 0) {
                     System.out.printf(printFormat,"S.No","Name","GPA");
                     System.out.println("-----------------------------------");
                 }
                 i++;
+                
                 System.out.printf(printFormat,i,s.getName(),s.getGPAbyCourseName(selectedCourse.getName()));
             }
         }
@@ -494,10 +556,10 @@ public class brewingUniversityModel {
         }
     }
 
-    private static void showStudentPerformance(String department) {
+    private static void showStudentJobPerformance(String department) {
         System.out.println("Below are all the placements: ");
         int i = 0;
-        String printFormat = "%4s. %20s\t%20s\t%20s\t%10s";
+        String printFormat = "%4s. %20s\t%20s\t%20s\t%10s\n";
         System.out.printf(printFormat,"S.No","Student Name","Department","Employer","Performance Rating");
         System.out.println("------------------------------------------------------------------------");
         if(department != null)

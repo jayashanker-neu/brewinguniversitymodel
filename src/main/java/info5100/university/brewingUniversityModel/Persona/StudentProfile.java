@@ -82,7 +82,17 @@ public class StudentProfile {
     
     public float getGPAbyCourseName(String course) {
         for(Map.Entry<String, CourseLoad> cl: transcript.courseloadlist.entrySet()) {
-            for(SeatAssignment sa: cl.getValue().getSeatAssignments()) {
+            for(SeatAssignment sa: cl.getValue().getSeatAssignmentsForSemester(cl.getKey())) {
+                if(sa.getCourseName().equals(course))
+                    return sa.getGPA();
+            }
+        }
+        return 4;
+    }
+    
+    public float getGPAbyCourseName(String course, String semester) {
+        for(Map.Entry<String, CourseLoad> cl: transcript.courseloadlist.entrySet()) {
+            for(SeatAssignment sa: cl.getValue().getSeatAssignmentsForSemester(cl.getKey())) {
                 if(sa.getCourseName().equals(course))
                     return sa.getGPA();
             }

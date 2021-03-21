@@ -40,4 +40,11 @@ public class CourseLoad {
         return this.seatassignments;
     }
     
+    public ArrayList<SeatAssignment> getSeatAssignmentsForSemester(String semester) {
+        if(semester.equals(this.semester))
+            return this.seatassignments;
+        else 
+            return null;
+    }
+    
 }

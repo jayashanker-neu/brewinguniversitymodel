@@ -41,6 +41,10 @@ public class FacultyDirectory {
             }
         }
             return null; //not found after going through the whole list
-         }
+    }
+    
+    public ArrayList<FacultyProfile> getList() {
+        return teacherlist;
+    }
     
 }
