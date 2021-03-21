@@ -5,11 +5,15 @@
  */
 package info5100.university.brewingUniversityModel;
 
+import com.github.javafaker.Faker;
 import info5100.university.brewingUniversityModel.CourseCatalog.Course;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseLoad;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseOffer;
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseSchedule;
 import info5100.university.brewingUniversityModel.Department.Department;
+import info5100.university.brewingUniversityModel.Employer.EmployerDirectory;
+import info5100.university.brewingUniversityModel.Employer.EmployerProfile;
+import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.Employment;
 import info5100.university.brewingUniversityModel.Persona.Person;
 import info5100.university.brewingUniversityModel.Persona.PersonDirectory;
 import info5100.university.brewingUniversityModel.Persona.StudentDirectory;
@@ -29,17 +33,8 @@ public class brewingUniversityModel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         
-        //what all the things are in depart and college lvl?
-        // I am able to create multiple departments , this makes one college
-        // should be able to create multiple colleges and display, this makes university model
-        //let go into sub details
-        
-        //in department, degree should be defined
-        //degree is connected with completing all credits and covering all courses(core and elective)
-        
-        //create UI
+        Faker faker = new Faker();
         
         departmentDirectory.add(new Department("Information Systems"));
         
@@ -57,6 +52,8 @@ public class brewingUniversityModel {
         
         courseoffer.generatSeats(10);
         
+        EmployerDirectory employerDirectory = new EmployerDirectory(department);
+        
         PersonDirectory pd = department.getPersonDirectory();
         Person person = pd.newPerson("0112303");
         StudentDirectory sd = department.getStudentDirectory();
@@ -68,10 +65,95 @@ public class brewingUniversityModel {
         int total = department.calculateRevenuesBySemester("Fall2020");
 //        System.out.print("Total: " + total);
         
+
+// creating new departments
+        ArrayList<String> departmentList = new ArrayList<>();
+        departmentList.add("INFO");
+        departmentList.add("CSYE");
+        departmentList.add("MGEN");
+
+        for(String s: departmentList) {
+            addDepartment(s);
+        }
+
+// creating new courses
+        ArrayList<String> courseList = new ArrayList<>();
         
-        while(showMainMenu());
+        for(String d: departmentList) {
+            for(int i = 0; i < 4; i++) {
+                String n = faker.funnyName().name();
+                courseList.add(n);
+                getDepartmentFromDirectory(d).getCourseCatalog().newCourse(n,n,4);
+            }
+        }
+        
+        showCoursesMenu(null);
+        // creating new semesters
+        ArrayList<String> semesterList = new ArrayList<String>() {
+            {
+                add("Fall2020");
+                add("Spring2021");
+            }
+        };
+        
+        ArrayList<String> personList = new ArrayList<>();
+        
+        ArrayList<String> facultyList = new ArrayList<>();
+
+        // creating new faculty
+        for(Department d: departmentDirectory) {
+            for(int i = 0; i < 5; i++) {
+                String name = faker.name().fullName();
+                personList.add(name);
+                facultyList.add(name);
+                d.getFacultydirectory().newFacultyProfile(pd.newPerson(name));
+            }
+        }
+        
+        ArrayList<String> studentList = new ArrayList<>();
+        
+        // creating new students
+        for(Department d: departmentDirectory) {
+            for(int i = 0; i < 20; i++) {
+                String name = faker.name().fullName();
+                studentList.add(name);
+                d.getStudentDirectory().newStudentProfile(pd.newPerson(name));
+            }
+        }
+        
+        // creating new course schedules
+        for(String sem: semesterList) {
+            for(Department d:departmentDirectory) {
+                d.newCourseSchedule(sem);
+            }
+        }
+        
+        // creating new courses
+        for(Department d:departmentDirectory) {
+            for(int i = 0; i < 4; i++) {
+                String n = faker.funnyName().name();
+                courseList.add(n);
+//                    String cNum = getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4).getCourseNumber();
+                getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4);
+                for(String semester: semesterList) {
+                    getDepartmentFromDirectory(d.getName()).getCourseSchedule(semester).newCourseOffer(n).generatSeats(20);
+                }
+            }
+        }
+        
+        
+        
+        
+//        
+//        while(showMainMenu());
         
 
+    }
+    
+    public static Department addDepartment(String n) {
+        Department newDepartment = new Department(n);
+        departmentDirectory.add(newDepartment);
+        return newDepartment;
     }
     
     private static Department getDepartmentFromDirectory(String department) {
@@ -93,8 +175,8 @@ public class brewingUniversityModel {
             System.out.println(" 2. Show Courses");
             System.out.println(" 3. Show Placements");
             System.out.println(" 4. Show Student Performance provided by Employers");
-            System.out.println(" 5. Show quality of Employers students are working for");
-            System.out.println(" 6. Create Department");
+            System.out.println(" 5. Create Department");
+            System.out.println(" 6. Show Employers"); //TODO: Implement
             System.out.println("99. Exit");
 
             Scanner scanner;
@@ -131,25 +213,19 @@ public class brewingUniversityModel {
                     isValidChoice = true;
                     showStudentPerformance(null);
                     break;
-
-                case 5:
-                    isValidChoice = true;
-                    showEmployerQuality(null);
-                    break;
                     
-                case 6:
+                case 5:
                     isValidChoice = true;
                     System.out.println("Enter the new department name: ");
                     String newDepartmentName = new Scanner(System.in).nextLine();
-                    if(getDepartmentFromDirectory(newDepartmentName) == null) {
-                        departmentDirectory.add(new Department(newDepartmentName));
-                        System.out.println("Department " + newDepartmentName + " successfully created..");
-                    }
-                    else {
-                        System.out.println("Department " + newDepartmentName + " already exists..");
-                        System.out.println("Department creation failed...");
-                    }
+                    createDepartment(newDepartmentName);
                     break;
+                    
+//                case 6:
+//                    isValidChoice = true;
+//                    System.out.println("Below are all employers: ");
+//                    for(EmployerProfile 
+//                    }
 
                 case 99:
                     isValidChoice = true;
@@ -165,6 +241,21 @@ public class brewingUniversityModel {
         return true;
     }
 
+    private static Department createDepartment(String department) {
+        Department d = null;
+        if(getDepartmentFromDirectory(department) == null) {
+            d = new Department(department);
+            departmentDirectory.add(d);
+            System.out.println("Department " + department + " successfully created..");
+        }
+        else {
+            d = getDepartmentFromDirectory(department);
+            System.out.println("Department " + department + " already exists..");
+            System.out.println("Department creation failed...");
+        }
+        return d;
+    }
+    
     private static int getYesOrNo(String question){
         System.out.println(question);
         System.out.println("\t1. Yes");
@@ -187,9 +278,8 @@ public class brewingUniversityModel {
             if(department != null) {
                 switch(getYesOrNo("Do you want to create " + department + " department?")) {
                     case 1:
-                        d = new Department(department);
-                        departmentDirectory.add(d);
-                        System.out.println("Department " + department + " is created successfully..");
+                        createDepartment(department);
+//                        System.out.println("Department " + department + " is created successfully..");
                         break;
                     case 2:
                         return;
@@ -230,15 +320,20 @@ public class brewingUniversityModel {
                 System.out.println(" 1. Show Courses");
                 System.out.println(" 2. Show Placements");
                 System.out.println(" 3. Show Student Performance provided by Employers");
-                System.out.println(" 4. Show quality of Employers students are working for");
-                System.out.println(" 5. Add Course");
-                System.out.println(" 6. See Students"); //TODO: Implement
-                System.out.println(" 7. Add Student");  //TODO: Implement
-                System.out.println(" 8. Show Faculty"); //TODO: Implement
-                System.out.println(" 9. Create Faculty");   //TODO: Implement
-                System.out.println("10. Create course offer"); //TODO: Implement
-                System.out.println("11. Assign courseoffer to student"); //TODO:  alongwith with seat assignment
-                System.out.println("12. Assign GPA");
+                System.out.println(" 4. Add Course");
+//                System.out.println(" 6. See Students"); //TODO: Implement   // See student history, assign GPA
+//                System.out.println(" 7. Add Student");  //TODO: Implement
+//                System.out.println(" 8. Show Faculty"); //TODO: Implement
+//                System.out.println(" 9. Create Faculty");   //TODO: Implement
+//                System.out.println("10. Create course offer"); //TODO: Implement
+//                System.out.println("11. Assign courseoffer to student"); //TODO:  alongwith with seat assignment
+////                System.out.println("12. Assign GPA");       //TODO: Implement
+//                System.out.println("13. Show Employers"); //TODO: Implement
+//                System.out.println("14. Add Employer"); //TODO: Implement
+//                System.out.println("15. Show Job Roles"); //TODO: Implement
+//                System.out.println("16. Add New Jobs"); //TODO: Implement
+//                System.out.println("17. Assign a job to Student"); //TODO: Implement
+//                System.out.println("18. Show Employers"); //TODO: Implement
                 
                 System.out.println("99. Go Back");
                 
@@ -256,21 +351,9 @@ public class brewingUniversityModel {
                         showStudentPerformance(d.getName());
                         break;
                     case 4:
-//                        isValidChoice = true;
-                        showEmployerQuality(d.getName());
-                        break;
-                    case 5:
                         System.out.println("Enter course name to add: ");
                         String newCourseName = new Scanner(System.in).nextLine();
-                        if(d.getCourseCatalog().hasCourse(newCourseName)) {
-                            System.out.println("Course " + newCourseName + " already present in " + d.getName() + " department");
-                            System.out.println("Course creation failed..");
-                        }
-                        else {
-//                            System.out.println("Enter course number: ");
-                            d.getCourseCatalog().newCourse(newCourseName, newCourseName, 4);
-                            System.out.println("Course " + newCourseName + " created successfully in " + d.getName() + " department");
-                        }
+                        createCourse(d,newCourseName);
                         break;
                     case 99:
                         return;
@@ -287,6 +370,20 @@ public class brewingUniversityModel {
             }
         }
         //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static Course createCourse(Department d,String newCourseName) {
+        Course c = null;
+        if(d.getCourseCatalog().hasCourse(newCourseName)) {
+            System.out.println("Course " + newCourseName + " already present in " + d.getName() + " department");
+            System.out.println("Course creation failed..");
+        }
+        else {
+//          System.out.println("Enter course number: ");
+            c = d.getCourseCatalog().newCourse(newCourseName, newCourseName, 4);
+            System.out.println("Course " + newCourseName + " created successfully in " + d.getName() + " department");
+        }
+        return c;
     }
     
     public static void chooseOption(String s) {
@@ -367,7 +464,7 @@ public class brewingUniversityModel {
 //        for(CourseOffer co: selectedDepartment.getCourseCatalog().)
         
         System.out.println("\n\n  1. See all students\nAny. Go back");
-        if(new Scanner(System.in).nextInt() == 1) {
+        if(new Scanner(System.in).nextLine() == "1") {
             int i = 0;
             String printFormat = "%-4s. %20s %4s";
             for(StudentProfile s: selectedDepartment.getStudentDirectory().getStudentlist()) {
@@ -381,19 +478,45 @@ public class brewingUniversityModel {
         }
         else
             return;
-        
     }
 
     private static void showPlacementsMenu(String department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Below are all the placements: ");
+        int i = 0;
+        String printFormat = "%4s. %20s\t%20s\t%20s";
+        System.out.printf(printFormat,"S.No","Job Role","Employer","Student Name");
+        System.out.println("---------------------------------------------------------------------");
+        for(StudentProfile sp: getDepartmentFromDirectory(department).getStudentDirectory().getStudentlist()) {
+            for(Employment e: sp.getEmploymentHistoryList()) {
+                i++;
+                System.out.printf(printFormat,i,e.getJobRole(),e.getEmployerName(),sp.getName());
+            }
+        }
     }
 
     private static void showStudentPerformance(String department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static void showEmployerQuality(String department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Below are all the placements: ");
+        int i = 0;
+        String printFormat = "%4s. %20s\t%20s\t%20s\t%10s";
+        System.out.printf(printFormat,"S.No","Student Name","Department","Employer","Performance Rating");
+        System.out.println("------------------------------------------------------------------------");
+        if(department != null)
+            for(StudentProfile sp: getDepartmentFromDirectory(department).getStudentDirectory().getStudentlist()) {
+                for(Employment e: sp.getEmploymentHistoryList()) {
+                    i++;
+                    System.out.printf(printFormat,i,sp.getName(),department,e.getEmployerName(),e.getStudentQualityAtJob());
+                }
+            }
+        else {
+            for(Department d: departmentDirectory){
+                for(StudentProfile sp: getDepartmentFromDirectory(d.getName()).getStudentDirectory().getStudentlist()) {
+                    for(Employment e: sp.getEmploymentHistoryList()) {
+                        i++;
+                        System.out.printf(printFormat,i,sp.getName(),d.getName(),e.getEmployerName(),e.getStudentQualityAtJob());
+                    }
+                }
+            }
+        }
     }
 
     private static void listDepartments() {

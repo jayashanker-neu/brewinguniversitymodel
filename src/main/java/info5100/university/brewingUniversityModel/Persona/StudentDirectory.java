@@ -31,7 +31,7 @@ public class StudentDirectory {
         return sp;
     }
 
-    public StudentProfile findStudent(String id) {
+    public StudentProfile findStudent(int id) {
 
         for (StudentProfile sp : studentlist) {
 

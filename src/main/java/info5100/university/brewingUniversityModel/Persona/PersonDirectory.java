@@ -28,7 +28,7 @@ public class PersonDirectory {
         return p;
     }
 
-    public Person findPerson(String id) {
+    public Person findPerson(int id) {
 
         for (Person p : personlist) {
 

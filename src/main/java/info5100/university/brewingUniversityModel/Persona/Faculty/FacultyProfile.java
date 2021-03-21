@@ -36,8 +36,8 @@ public class FacultyProfile {
         return null; //complete it later
     }
 
-    public boolean isMatch(String id) {
-        if (person.getPersonId().equals(id)) {
+    public boolean isMatch(int id) {
+        if (person.getPersonId() == id) {
             return true;
         }
         return false;

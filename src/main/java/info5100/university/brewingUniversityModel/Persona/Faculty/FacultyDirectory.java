@@ -25,14 +25,14 @@ public class FacultyDirectory {
 
     }
 
-    public FacultyProfile newStudentProfile(Person p) {
+    public FacultyProfile newFacultyProfile(Person p) {
 
         FacultyProfile sp = new FacultyProfile(p);
         teacherlist.add(sp);
         return sp;
     }
 
-    public FacultyProfile findTeachingFaculty(String id) {
+    public FacultyProfile findTeachingFaculty(int id) {
 
         for (FacultyProfile sp : teacherlist) {
 

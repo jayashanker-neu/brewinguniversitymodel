@@ -7,7 +7,9 @@ package info5100.university.brewingUniversityModel.Persona;
 
 import info5100.university.brewingUniversityModel.CourseSchedule.CourseLoad;
 import info5100.university.brewingUniversityModel.CourseSchedule.SeatAssignment;
+import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.Employment;
 import info5100.university.brewingUniversityModel.Persona.EmploymentHistory.EmploymentHistory;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -32,8 +34,8 @@ public class StudentProfile {
         return person.getName();
     }
     
-    public boolean isMatch(String id) {
-        if (person.getPersonId().equals(id)) {
+    public boolean isMatch(int id) {
+        if (person.getPersonId() == id ) {
             return true;
         }
         return false;
@@ -64,6 +66,10 @@ public class StudentProfile {
 
     public EmploymentHistory getEmploymenthistory() {
         return employmenthistory;
+    }
+    
+    public ArrayList<Employment> getEmploymentHistoryList() {
+        return this.employmenthistory.getEmployments();
     }
 
     public void setEmploymenthistory(EmploymentHistory employmenthistory) {
