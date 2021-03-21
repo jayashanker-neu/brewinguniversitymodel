@@ -131,17 +131,19 @@ public class brewingUniversityModel {
         
         // creating new courses, courseOffers, generate 20 seats, Assign Random Faculty
         for(Department d:departmentDirectory) {
-            for(int i = 0; i < 4; i++) {
+            for(String semester: semesterList) {
+                for(int i = 0; i < 4; i++) {
                 String n = faker.funnyName().name();
                 courseList.add(n);
 //                    String cNum = getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4).getCourseNumber();
                 getDepartmentFromDirectory(d.getName()).getCourseCatalog().newCourse(n,n,4);
-                for(String semester: semesterList) {
-                    getDepartmentFromDirectory(d.getName()).getCourseSchedule(semester).newCourseOffer(n).generateSeats(20).
-                            AssignAsTeacher(getSomeFaculty(d));
+                getDepartmentFromDirectory(d.getName()).getCourseSchedule(semester).newCourseOffer(n).generateSeats(20).
+                        AssignAsTeacher(getSomeFaculty(d));
                 }
             }
         }
+        
+//        showCoursesMenu(null); 
         
         // Create courseLoad, assign seats to all students
         int i = 0;
@@ -154,7 +156,7 @@ public class brewingUniversityModel {
                         SeatAssignment sa = cl.newSeatAssignment(co);
                         if(sa != null) {
                             cl.registerStudent(sa);
-                            sa.setGPA(faker.number().numberBetween(0, 4));
+                            sa.setGPA((float) (faker.number().numberBetween(0, 40)/10.0));
 //                            System.out.println(d.getName() + " " + sp.getName() + " " + co.getCourseName() + " " + semester);
 //                            System.out.println(++i + " seat created");
                         }
@@ -170,44 +172,105 @@ public class brewingUniversityModel {
         // see all students gpa
         int j = 0;
         for(Department d: departmentDirectory) {
-            String printFormat = "%-4s. %20s %4s\n";
+            String printFormat = "%-4s.\t%20s\t%20s\t%20s\t%20s\t%4s\t%4s\t%20s\n";
             for(StudentProfile s: d.getStudentDirectory().getStudentlist()) {
                 Transcript t = s.getTranscript();
                 for(String semester: semesterList) {
                     CourseLoad cl = t.getCourseLoadBySemester(semester);
-                    for(CourseOffer co : d.getCourseSchedule(semester).getCourseOffers()) {
-                        ArrayList<SeatAssignment> saList = cl.getSeatAssignmentsForSemester(semester);
-                        for(SeatAssignment sa: saList) {
-                            if(j == 0) {
-                                System.out.printf(printFormat,"S.No","Name","GPA");
-                                System.out.println("-----------------------------------");
+                    for(SeatAssignment sa: cl.getSeatAssignmentsForSemester(semester)) {
+                        if(j == 0) {
+                                System.out.printf(printFormat,"S.No","Student Name","Course Name","Semester",
+                                        "Department","GPA","Overall GPA","Faculty");
+                                System.out.println("---------------------------------------------------------------------------------------------------------");
                             }
                             j++;
-                            System.out.printf(printFormat,j,s.getName(),sa.getGPA());
-                        }
+                            System.out.printf(printFormat,j,s.getName(), sa.getCourseName(),semester,
+                                    d.getName(),sa.getGPA(), s.getTranscript().getOverallGPA(),
+                                    sa.getSeat().getCourseoffer().getFacultyProfile().getName());
                     }
                 }
             }
         }
         
+        //Creating employers and employments
+        ArrayList<String> jobTitles = new ArrayList<>();
+        for(int k = 0; k < 6; k++) {
+            String name = faker.job().title();
+            jobTitles.add(name);
+        }
+        
+        ArrayList<String> qualityList = new ArrayList<String>() {
+            {
+                add("Very Poor");
+                add("Poor");
+                add("Average");
+                add("Good");
+                add("Very Good");
+            }
+        };
+        
+        for(int k = 0; k < 6; k++) {
+            String name = faker.company().name();
+            StudentProfile sp = null;
+            EmployerProfile eProf = employerDirectory.newEmployerProfile(name);
+            for(String jobTitle: jobTitles) {
+                for(int l = 0; l < 3; l++)
+                    sp = getSomeStudent();
+                    sp.addEmployment(jobTitle).setEmployer(eProf);
+                    sp.getCurrentEmployment().setQuality(qualityList.get(faker.number().numberBetween(0, 4)));
+            }
+        }
+        
+        // see student performance
+        i = 0;
+        for(Department d: departmentDirectory) {
+            String printFormat = "%4s.\t%20s\t%20s\t%20s\t%20s\t%4s\n";
+            System.out.println("------------------------------------------------------------------------");
+            for(StudentProfile sp: d.getStudentDirectory().getStudentlist()){
+                for(Employment emp: sp.getEmploymentHistoryList()) {
+                    if(i==0){
+                        System.out.printf(printFormat,"S.No", "Department", "Student",
+                                "Employer Name", "Job Role", "Job Performance Rating");
+                    }
+                    i++;
+                    System.out.printf(printFormat,i, d.getName(), sp.getName(),
+                                emp.getEmployerName(), emp.getJobRole(), emp.getQuality());
+                }
+            }
+        }
         
         showStudentJobPerformance(null);
         
         
-        showCoursesMenu(null);
-        
-        
-        
+        showCoursesMenu(null);        
 //        
 //        while(showMainMenu());
-        
 
+    }
+    
+    public static StudentProfile getSomeStudent(){
+        int random = (int)faker.number().randomNumber() % 70;
+        StudentProfile s = null;
+        int i = 0;
+        for(Department d: departmentDirectory) {
+            for(StudentProfile sp: d.getStudentDirectory().getStudentlist()) {
+                i++;
+                s=sp;
+                if(i==random) {
+                    return sp;
+                }
+            }
+        }
+        return s;
     }
     
     private static FacultyProfile getSomeFaculty(Department d){
         FacultyProfile fp = null;
         int facultyListSize = d.getFacultydirectory().getList().size();
-        fp = d.getFacultydirectory().findTeachingFaculty((int) (faker.number().randomNumber()%facultyListSize));
+        ArrayList<FacultyProfile> fpList = d.getFacultydirectory().getList();
+        fp = d.getFacultydirectory().findFacultyByName(fpList.get(
+                (int) (faker.number().randomNumber()%facultyListSize)).getName());
+//        fp = d.getFacultydirectory().findTeachingFaculty((int) (faker.number().randomNumber()%facultyListSize));
         return fp;
     }
     

@@ -42,6 +42,17 @@ public class FacultyProfile {
         }
         return false;
     }
+    
+    public boolean isMatch(String name) {
+        if (person.getName().equals(name)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public String getName() {
+        return this.person.getName();
+    }
 
     
     

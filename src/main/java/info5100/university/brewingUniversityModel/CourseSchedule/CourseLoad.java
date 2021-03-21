@@ -33,7 +33,7 @@ public class CourseLoad {
         
         
         sa.assignSeatToStudent(this);
-        seatassignments.add(sa);
+//        seatassignments.add(sa);
     }
     
     public ArrayList<SeatAssignment> getSeatAssignments() {

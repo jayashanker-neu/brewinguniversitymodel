@@ -38,4 +38,7 @@ public class SeatAssignment {
         this.GPA = GPA;
     }
     
+    public Seat getSeat() {
+        return seat;
+    }
 }

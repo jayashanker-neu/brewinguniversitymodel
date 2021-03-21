@@ -76,8 +76,8 @@ public class StudentProfile {
         this.employmenthistory = employmenthistory;
     }
     
-    public void addEmployment(String job){
-        this.employmenthistory.newEmployment(job);
+    public Employment addEmployment(String job){
+        return this.employmenthistory.newEmployment(job);
     }
     
     public float getGPAbyCourseName(String course) {
@@ -98,6 +98,10 @@ public class StudentProfile {
             }
         }
         return 4;
+    }
+    
+    public Employment getCurrentEmployment() {
+        return this.employmenthistory.getEmployments().get(employmenthistory.getEmployments().size() - 1);
     }
     
 }

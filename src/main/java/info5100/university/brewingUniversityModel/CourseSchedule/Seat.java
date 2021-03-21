@@ -32,6 +32,12 @@ public class Seat {
         occupied = true;
         return seatassignment;
     }
+
+    public CourseOffer getCourseoffer() {
+        return courseoffer;
+    }
+    
+    
     
     
 }

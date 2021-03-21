@@ -32,6 +32,16 @@ public class FacultyDirectory {
         return sp;
     }
 
+    public FacultyProfile findFacultyByName(String name) {
+        for (FacultyProfile sp : teacherlist) {
+
+            if (sp.isMatch(name)) {
+                return sp;
+            }
+        }
+        return null;
+    }
+    
     public FacultyProfile findTeachingFaculty(int id) {
 
         for (FacultyProfile sp : teacherlist) {
