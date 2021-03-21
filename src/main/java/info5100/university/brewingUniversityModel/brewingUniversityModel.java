@@ -33,6 +33,14 @@ public class brewingUniversityModel {
 
     private static ArrayList<Department> departmentDirectory = new ArrayList<Department>();
     private static Faker faker = new Faker();
+    // creating new semesters
+    private static ArrayList<String> semesterList = new ArrayList<String>() {
+        {
+            add("Fall2020");
+            add("Spring2021");
+        }
+    };
+    
     /**
      * @param args the command line arguments
      */
@@ -88,14 +96,6 @@ public class brewingUniversityModel {
 //                getDepartmentFromDirectory(d).getCourseCatalog().newCourse(n,n,4);
 //            }
 //        }
-
-        // creating new semesters
-        ArrayList<String> semesterList = new ArrayList<String>() {
-            {
-                add("Fall2020");
-                add("Spring2021");
-            }
-        };
         
         ArrayList<String> personList = new ArrayList<>();
         
@@ -170,29 +170,11 @@ public class brewingUniversityModel {
         }
         
         // see all students gpa
-        int j = 0;
-        for(Department d: departmentDirectory) {
-            String printFormat = "%-4s.\t%20s\t%20s\t%20s\t%20s\t%4s\t%4s\t%20s\n";
-            for(StudentProfile s: d.getStudentDirectory().getStudentlist()) {
-                Transcript t = s.getTranscript();
-                for(String semester: semesterList) {
-                    CourseLoad cl = t.getCourseLoadBySemester(semester);
-                    for(SeatAssignment sa: cl.getSeatAssignmentsForSemester(semester)) {
-                        if(j == 0) {
-                                System.out.printf(printFormat,"S.No","Student Name","Course Name","Semester",
-                                        "Department","GPA","Overall GPA","Faculty");
-                                System.out.println("---------------------------------------------------------------------------------------------------------");
-                            }
-                            j++;
-                            System.out.printf(printFormat,j,s.getName(), sa.getCourseName(),semester,
-                                    d.getName(),sa.getGPA(), s.getTranscript().getOverallGPA(),
-                                    sa.getSeat().getCourseoffer().getFacultyProfile().getName());
-                    }
-                }
-            }
-        }
+//        showStudentGPA();
+    
         
         //Creating employers and employments
+
         ArrayList<String> jobTitles = new ArrayList<>();
         for(int k = 0; k < 6; k++) {
             String name = faker.job().title();
@@ -222,7 +204,43 @@ public class brewingUniversityModel {
         }
         
         // see student performance
-        i = 0;
+//        showJobPerformance();
+        
+//        showStudentJobPerformance(null);
+//        
+//        
+//        showCoursesMenu(null);        
+//        
+        while(showMainMenu());
+
+    }
+    
+    public static void showStudentGPA() {
+        int j = 0;
+        for(Department d: departmentDirectory) {
+            String printFormat = "%-4s.\t%20s\t%20s\t%20s\t%20s\t%4s\t%4s\t%20s\n";
+            for(StudentProfile s: d.getStudentDirectory().getStudentlist()) {
+                Transcript t = s.getTranscript();
+                for(String semester: semesterList) {
+                    CourseLoad cl = t.getCourseLoadBySemester(semester);
+                    for(SeatAssignment sa: cl.getSeatAssignmentsForSemester(semester)) {
+                        if(j == 0) {
+                                System.out.printf(printFormat,"S.No","Student Name","Course Name","Semester",
+                                        "Department","GPA","Overall GPA","Faculty");
+                                System.out.println("---------------------------------------------------------------------------------------------------------");
+                            }
+                            j++;
+                            System.out.printf(printFormat,j,s.getName(), sa.getCourseName(),semester,
+                                    d.getName(),sa.getGPA(), s.getTranscript().getOverallGPA(),
+                                    sa.getSeat().getCourseoffer().getFacultyProfile().getName());
+                    }
+                }
+            }
+        }
+    }
+    
+    public static void showJobPerformance() {
+        int i = 0;
         for(Department d: departmentDirectory) {
             String printFormat = "%4s.\t%20s\t%20s\t%20s\t%20s\t%4s\n";
             System.out.println("------------------------------------------------------------------------");
@@ -238,14 +256,6 @@ public class brewingUniversityModel {
                 }
             }
         }
-        
-        showStudentJobPerformance(null);
-        
-        
-        showCoursesMenu(null);        
-//        
-//        while(showMainMenu());
-
     }
     
     public static StudentProfile getSomeStudent(){
@@ -299,8 +309,8 @@ public class brewingUniversityModel {
             System.out.println(" 2. Show Courses");
             System.out.println(" 3. Show Placements");
             System.out.println(" 4. Show Student Performance provided by Employers");
-            System.out.println(" 5. Create Department");
-            System.out.println(" 6. Show Employers"); //TODO: Implement
+//            System.out.println(" 5. Create Department");
+//            System.out.println(" 6. Show Employers"); //TODO: Implement
             System.out.println("99. Exit");
 
             Scanner scanner;
@@ -338,12 +348,12 @@ public class brewingUniversityModel {
                     showStudentJobPerformance(null);
                     break;
                     
-                case 5:
-                    isValidChoice = true;
-                    System.out.println("Enter the new department name: ");
-                    String newDepartmentName = new Scanner(System.in).nextLine();
-                    createDepartment(newDepartmentName);
-                    break;
+//                case 5:
+//                    isValidChoice = true;
+//                    System.out.println("Enter the new department name: ");
+//                    String newDepartmentName = new Scanner(System.in).nextLine();
+//                    createDepartment(newDepartmentName);
+//                    break;
                     
 //                case 6:
 //                    isValidChoice = true;
@@ -424,8 +434,9 @@ public class brewingUniversityModel {
                     isValidChoice = true;
                 }
                 catch(Exception e) {
-                    System.out.println(e);
-                    System.out.println("Please choose a valid option.");
+//                    System.out.println(e);
+                    System.out.println("Entered wrong option..\n Going back...");
+                    return;
                 }
             }
         }
@@ -444,7 +455,7 @@ public class brewingUniversityModel {
                 System.out.println(" 1. Show Courses");
                 System.out.println(" 2. Show Placements");
                 System.out.println(" 3. Show Student Performance provided by Employers");
-                System.out.println(" 4. Add Course");
+//                System.out.println(" 4. Add Course");
 //                System.out.println(" 6. See Students"); //TODO: Implement   // See student history, assign GPA
 //                System.out.println(" 7. Add Student");  //TODO: Implement
 //                System.out.println(" 8. Show Faculty"); //TODO: Implement
@@ -474,11 +485,11 @@ public class brewingUniversityModel {
 //                        isValidChoice = true;
                         showStudentJobPerformance(d.getName());
                         break;
-                    case 4:
-                        System.out.println("Enter course name to add: ");
-                        String newCourseName = new Scanner(System.in).nextLine();
-                        createCourse(d,newCourseName);
-                        break;
+//                    case 4:
+//                        System.out.println("Enter course name to add: ");
+//                        String newCourseName = new Scanner(System.in).nextLine();
+//                        createCourse(d,newCourseName);
+//                        break;
                     case 99:
                         return;
                     default:
@@ -518,7 +529,7 @@ public class brewingUniversityModel {
     }
 
     private static void listCourses(String department) {
-        String printFormat = "%4s. %15s\t%15s\n";
+        String printFormat = "%4s. %25s\t%15s\n";
         System.out.printf(printFormat, "S.No","Course","Department");
         System.out.println("--------------------------------------");
         if(department == null) {
@@ -543,78 +554,104 @@ public class brewingUniversityModel {
     }
     
     private static void showCoursesMenu(String department) {
-        int choice;
-        chooseOption("course");
+//        int choice;
+//        chooseOption("course");
         listCourses(department);
-        Boolean isValidChoice = false;
-        Course selectedCourse = null;
-        Department selectedDepartment = null;
-        while(!isValidChoice) {
-            try {
-                choice = new Scanner(System.in).nextInt();
-                if(choice == 99) {
-                    System.out.println("Going back..\n");
-                    return;
-                }
-                if(department == null) {
-                    while(choice > 0) {
-                        for(Department d: departmentDirectory) {
-                            for(Course c: d.getCourseCatalog().getCourseList()) {
-                                choice--;
-                                if(choice == 0) { 
-                                    selectedCourse = c;
-                                    selectedDepartment = d;
-                                }
-                            }
-                        }
-                    }
-                    if(selectedCourse == null) {
-                        new Exception();
-                    }
-                }
-                else {
-                    Department d = getDepartmentFromDirectory(department);
-                    selectedCourse = d.getCourseCatalog().getCourseList().get(choice - 1);
-                }
-                isValidChoice = true;
-            }
-            catch (Exception e) {
-                chooseOption("course");
-            }
-        }
-        System.out.println("Selected Course: " + selectedCourse.getName());
+//        Boolean isValidChoice = false;
+//        Course selectedCourse = null;
+//        Department selectedDepartment = null;
+//        while(!isValidChoice) {
+//            try {
+//                choice = new Scanner(System.in).nextInt();
+//                if(choice == 99) {
+//                    System.out.println("Going back..\n");
+//                    return;
+//                }
+//                if(department == null) {
+//                    while(choice > 0) {
+//                        for(Department d: departmentDirectory) {
+//                            for(Course c: d.getCourseCatalog().getCourseList()) {
+//                                choice--;
+//                                if(choice == 0) { 
+//                                    selectedCourse = c;
+//                                    selectedDepartment = d;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if(selectedCourse == null) {
+//                        new Exception();
+//                    }
+//                }
+//                else {
+//                    Department d = getDepartmentFromDirectory(department);
+//                    selectedCourse = d.getCourseCatalog().getCourseList().get(choice - 1);
+//                }
+//                isValidChoice = true;
+//            }
+//            catch (Exception e) {
+//                chooseOption("course");
+//            }
+//        }
+//        return;
+//        System.out.println("Selected Course: " + selectedCourse.getName());
         
 //        System.out.println("Below are the course offers: ");
 //        for(CourseOffer co: selectedDepartment.getCourseCatalog().)
         
-        System.out.println("\n\n  1. See all students\nAny. Go back");
-        if(new Scanner(System.in).nextLine() == "1") {
-            int i = 0;
-            String printFormat = "%-4s. %20s %4s\n";
-            for(StudentProfile s: selectedDepartment.getStudentDirectory().getStudentlist()) {
-                if(i == 0) {
-                    System.out.printf(printFormat,"S.No","Name","GPA");
-                    System.out.println("-----------------------------------");
-                }
-                i++;
-                
-                System.out.printf(printFormat,i,s.getName(),s.getGPAbyCourseName(selectedCourse.getName()));
-            }
-        }
-        else
-            return;
+//        System.out.println("\n\n  1. See all students\nAny. Go back");
+//        try {
+//            int choiceIn = new Scanner(System.in).nextInt();
+//            if(choiceIn == 1) {
+//                int i = 0;
+//                String printFormat = "%-4s. %20s %4s\n";
+//                for(StudentProfile s: selectedDepartment.getStudentDirectory().getStudentlist()) {
+//                    if(i == 0) {
+//                        System.out.printf(printFormat,"S.No","Name","GPA");
+//                        System.out.println("-----------------------------------");
+//                    }
+//                    i++;
+//
+//                    System.out.printf(printFormat,i,s.getName(),s.getGPAbyCourseName(selectedCourse.getName()));
+//                }
+//            }
+//            else
+//                return;
+//        }
+//        catch(Exception e) {
+//            System.out.println(e);
+//            System.out.println("Invalid option..");
+//            System.out.println("Going back..");
+//        }
     }
 
     private static void showPlacementsMenu(String department) {
         System.out.println("Below are all the placements: ");
-        int i = 0;
-        String printFormat = "%4s. %20s\t%20s\t%20s";
-        System.out.printf(printFormat,"S.No","Job Role","Employer","Student Name");
-        System.out.println("---------------------------------------------------------------------");
-        for(StudentProfile sp: getDepartmentFromDirectory(department).getStudentDirectory().getStudentlist()) {
-            for(Employment e: sp.getEmploymentHistoryList()) {
-                i++;
-                System.out.printf(printFormat,i,e.getJobRole(),e.getEmployerName(),sp.getName());
+        if(department != null) {
+            int i = 0;
+            String printFormat = "%4s. %30s\t%20s\t%20s\n";
+            System.out.printf(printFormat,"S.No","Job Role","Employer","Student Name");
+            System.out.println("---------------------------------------------------------------------");
+            for(StudentProfile sp: getDepartmentFromDirectory(department).getStudentDirectory().getStudentlist()) {
+                for(Employment e: sp.getEmploymentHistoryList()) {
+                    i++;
+                    System.out.printf(printFormat,i,e.getJobRole(),e.getEmployerName(),sp.getName());
+                }
+            }
+        }
+        else {
+            int i = 0;
+            String printFormat = "%4s. %30s\t%20s\t%20s\n";
+            System.out.printf(printFormat,"S.No","Job Role","Employer","Student Name");
+            System.out.println("---------------------------------------------------------------------");
+
+            for(Department d: departmentDirectory){
+                for(StudentProfile sp: getDepartmentFromDirectory(d.getName()).getStudentDirectory().getStudentlist()) {
+                    for(Employment e: sp.getEmploymentHistoryList()) {
+                        i++;
+                        System.out.printf(printFormat,i,e.getJobRole(),e.getEmployerName(),sp.getName());
+                    }
+                }
             }
         }
     }
@@ -651,5 +688,5 @@ public class brewingUniversityModel {
             System.out.println(i + " " + d.getName());
         }
     }
-
+    
 }
