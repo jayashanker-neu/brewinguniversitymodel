@@ -27,6 +27,8 @@ public class Transcript {
         
     }
     
+    //calculateGPA(FUNCTION comes here)
+    
     public CourseLoad newCourseLoad(String sem){
         
         currentcourseload = new CourseLoad(sem);
